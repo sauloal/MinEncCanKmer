@@ -306,7 +306,7 @@ int main(int argc, char* argv[]) {
 
 	// parse arguments
 	if (argc<2){
-		fprintf(stderr, "arguments: fasta file, k (default 5, smaller 32), bin number (default 4)");
+		fprintf(stderr, "arguments: fasta file, k (default 5, larger 32), bin number (default 4)");
 		exit(1);
 	}
 	
@@ -317,13 +317,18 @@ int main(int argc, char* argv[]) {
 			exit(1);
 		}
 	}
-	
+	int ms = pow(4,k);
 	if (argc>3){
 		b=atoi(argv[3]);
+	} else {
+		b=ms/2;
 	}
 
 
-	
+	fprintf(stderr, "k (default 5, larger 32): %d\n", k);
+	fprintf(stderr, "max_size (4^%d): %d\n", k, ms);
+	fprintf(stderr, "bin number (default 4 or max_size/2): %d\n\n", b);
+
 	// initialize array
 	int bins[b];
 	for (int i=0;i<b;i++){
@@ -337,33 +342,25 @@ int main(int argc, char* argv[]) {
 	int   L;
 	ffp = OpenFASTA(argv[1]);
 	while (ReadFASTA(ffp, &seq, &name, &L)) {
-
-		
 		if (
-		
 			//***
 			//*** distribute canonical k-mers to bins
 			//***
-			
 			process_string(seq,k,bins,b)
 // 			process_string_std(seq,k,bins,b)
-			
 		){exit(1);}
 
 		free(seq);
 		free(name);
 	}
 	CloseFASTA(ffp);
-  
-	
+
 	// output distribution to bins
 	int sum=0;
 	for (int i=0;i<b;i++){
- 		printf("%d\n",bins[i]);
+ 		printf("%d %d\n",i, bins[i]);
 		sum+=bins[i];
 	}
-//  	printf("\nSUM: %d\n",sum);
-   
+  	printf("\nSUM: %d\n",sum);
 	return 0;
-   
 }

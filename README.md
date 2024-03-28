@@ -2,10 +2,12 @@
 
 Minimal encoding of canonical k-mers
 
+Source: <https://gitlab.ub.uni-bielefeld.de/gi/MinEncCanKmer>
+
 ## Compilation
 
 ```
-gcc -O3 -D_FILE_OFFSET_BITS=64 -pthread -mbmi -o canonical fasta.c canonical.c -lm
+gcc -O3 -D_FILE_OFFSET_BITS=64 -I./ -pthread -mbmi -o canonical fasta.c canonical.c -lm
 ```
 
 ## Usage
