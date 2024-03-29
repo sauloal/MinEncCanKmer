@@ -106,14 +106,16 @@ def main():
 	hash_list = [[i] for i in range(0,alphabet_size)]
 	for i in range(1,kmer_size):
 		hash_list = [x+[i] for x in hash_list for i in range(0,alphabet_size)]
+		#print(f"i {i} hash_list {hash_list}")
 
 	# encode each k-mer
-	for hash_array in hash_list:
+	for hash_pos, hash_array in enumerate(hash_list):
 		(code_array, pos_left) = code(hash_array, kmer_size, alphabet_size)
 		if code_array != []:
 			code_int = intcode(code_array, pos_left, alphabet_size, kmer_size)
 			# output
-			print(code_int, hash_array)
+			print(f"{hash_pos=:3d} {hash_array=} {code_array=} {pos_left=} {code_int=:3d} {code_int:>08b}")
+			#print(code_int, hash_array)
 
 if __name__ == "__main__":
 	main()
